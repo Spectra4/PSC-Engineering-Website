@@ -16,7 +16,7 @@ export default function About() {
           className="relative w-full h-80 md:h-[420px] rounded-2xl overflow-hidden shadow-lg"
         >
           <Image
-            src="/my-static-site/images/about-plant.png"
+            src="/images/about-plant.png"
             alt="Stone Crusher Plant"
             fill
             className="object-cover"
