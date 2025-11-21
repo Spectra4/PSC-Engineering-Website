@@ -14,7 +14,6 @@ export default function Navbar() {
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
 
-  // *** ADDED FOR PRODUCT 4 HOVER ***
   const [hoverProduct4, setHoverProduct4] = useState(false);
 
   const navLinks = [
@@ -23,20 +22,20 @@ export default function Navbar() {
   ];
 
   const products = [
-    { name: "Product 1", href: "/products/product-1" },
-    { name: "Product 2", href: "/products/product-2" },
-    { name: "Product 3", href: "/products/product-3" },
+    { name: "Stationary", href: "/products/product-1" },
+    { name: "Semi-Mobile", href: "/products/product-2" },
+    { name: "Wheel-Mounted", href: "/products/product-3" },
     {
-      name: "Product 4",
+      name: "Vibrating Screens",
       href: "/products/product-4",
       subProducts: [
-        { name: "Sub Product 4.1", href: "/products/product-4/sub-1" },
-        { name: "Sub Product 4.2", href: "/products/product-4/sub-2" },
+        { name: "Eccentric", href: "/products/product-4/sub-1" },
+        { name: "Cardan", href: "/products/product-4/sub-2" },
       ],
     },
-    { name: "Product 5", href: "/products/product-5" },
-    { name: "Product 6", href: "/products/product-6" },
-    { name: "Product 7", href: "/products/product-7" },
+    { name: "Vibrating Feeders", href: "/products/product-5" },
+    { name: "Conveyors", href: "/products/product-6" },
+    { name: "Fabrication Structures", href: "/products/product-7" },
   ];
 
   const afterProductLinks = [{ name: "Contact", href: "/contact" }];
@@ -62,7 +61,7 @@ export default function Navbar() {
         transition={{ duration: 0.6 }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-blue-300 backdrop-blur-lg shadow-lg border-b border-yellow-500/20"
+            ? "bg-blue-300/10 backdrop-blur-lg shadow-lg border-b border-white/10"
             : "bg-transparent"
         }`}
       >
@@ -72,12 +71,12 @@ export default function Navbar() {
             className="text-2xl font-extrabold text-white tracking-wider relative"
           >
             <motion.span
-              className="text-yellow-500"
+              className="text-blue-400"
               animate={{
                 textShadow: [
-                  "0px 0px 4px #FFD700",
-                  "0px 0px 12px #FFD700",
-                  "0px 0px 4px #FFD700",
+                  "0px 0px 4px #3B82F6",
+                  "0px 0px 12px #3B82F6",
+                  "0px 0px 4px #3B82F6",
                 ],
               }}
               transition={{ repeat: Infinity, duration: 2 }}
@@ -87,15 +86,13 @@ export default function Navbar() {
             Tech
           </Link>
 
-          <ul className="hidden md:flex items-center gap-10 text-black font-medium">
+          <ul className="hidden md:flex items-center gap-10 text-gray-200 font-medium">
             {navLinks.map((link) => (
               <li key={link.href} className="relative group">
                 <Link
                   href={link.href}
                   className={`transition-colors duration-300 ${
-                    pathname === link.href
-                      ? "text-white"
-                      : "hover:text-white"
+                    pathname === link.href ? "text-white" : "hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -107,14 +104,12 @@ export default function Navbar() {
                 />
               </li>
             ))}
-
-            {/* ======================= PRODUCTS DESKTOP MENU ======================= */}
             <li
               className="relative group"
               onMouseEnter={() => setProductsOpen(true)}
               onMouseLeave={() => {
                 setProductsOpen(false);
-                setHoverProduct4(false); // ★ ADDED
+                setHoverProduct4(false);
               }}
             >
               <button
@@ -149,10 +144,10 @@ export default function Navbar() {
                     exit={{ opacity: 0, y: 12, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
                     className="absolute top-full left-0 mt-4 
-                      bg-gray-100 backdrop-blur-xl
-                      border border-yellow-500/30 
+                      bg-white/5 backdrop-blur-xl
+                      border border-white/10 
                       rounded-2xl shadow-2xl 
-                      p-4 min-w-260px
+                      p-4 min-w-[240px]
                       space-y-1"
                   >
                     <ul className="py-2">
@@ -160,53 +155,52 @@ export default function Navbar() {
                         <li
                           key={product.href}
                           className="relative group/item"
-                          // ★ ONLY FOR PRODUCT 4 → enable hover
                           onMouseEnter={() =>
-                            product.name === "Product 4" &&
+                            product.name === "Vibrating Screens" &&
                             setHoverProduct4(true)
                           }
                           onMouseLeave={() =>
-                            product.name === "Product 4" &&
+                            product.name === "Vibrating Screens" &&
                             setHoverProduct4(false)
                           }
                         >
                           <Link
                             href={product.href}
-                            className="block px-6 py-2.5 text-black hover:text-white hover:bg-gray-800/50 transition-all whitespace-nowrap"
+                            className="block px-6 py-2.5 text-white hover:bg-white/10 transition-all whitespace-nowrap"
                           >
                             {product.name}
                           </Link>
 
-                          {/* ================= SUB-PRODUCTS ON HOVER (ONLY PRODUCT 4) ================= */}
                           {product.subProducts && (
                             <AnimatePresence>
-                              {hoverProduct4 && product.name === "Product 4" && (
-                                <motion.div
-                                  initial={{ opacity: 0, x: 14 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  exit={{ opacity: 0, x: 14 }}
-                                  transition={{ duration: 0.25, ease: "easeOut" }}
-                                  className="absolute left-full top-0 ml-3 
-                                    w-45 bg-gray-100 
-                                    backdrop-blur-xl 
-                                    border border-yellow-500/30 
-                                    rounded-2xl shadow-2xl 
-                                    p-3 space-y-1"
-                                >
-                                  <ul className="py-2">
-                                    {product.subProducts.map((sub) => (
-                                      <li key={sub.href}>
-                                        <Link
-                                          href={sub.href}
-                                          className="block px-4 py-2.5 text-black hover:text-white hover:bg-gray-800/50 transition-all whitespace-nowrap"
-                                        >
-                                          {sub.name}
-                                        </Link>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </motion.div>
-                              )}
+                              {hoverProduct4 &&
+                                product.name === "Vibrating Screens" && (
+                                  <motion.div
+                                    initial={{ opacity: 0, x: 14 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 14 }}
+                                    transition={{ duration: 0.25, ease: "easeOut" }}
+                                    className="absolute left-full top-0 ml-3 
+                                      w-[190px] bg-white/5 
+                                      backdrop-blur-xl 
+                                      border border-white/10 
+                                      rounded-2xl shadow-2xl 
+                                      p-3"
+                                  >
+                                    <ul className="py-2 space-y-1">
+                                      {product.subProducts.map((sub) => (
+                                        <li key={sub.href}>
+                                          <Link
+                                            href={sub.href}
+                                            className="block px-4 py-2.5 text-white hover:bg-white/10 transition-all whitespace-nowrap"
+                                          >
+                                            {sub.name}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </motion.div>
+                                )}
                             </AnimatePresence>
                           )}
                         </li>
@@ -216,16 +210,12 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </li>
-
-            {/* ======================= AFTER PRODUCTS LINKS ======================= */}
             {afterProductLinks.map((link) => (
               <li key={link.href} className="relative group">
                 <Link
                   href={link.href}
                   className={`transition-colors duration-300 ${
-                    pathname === link.href
-                      ? "text-white"
-                      : "hover:text-white"
+                    pathname === link.href ? "text-white" : "hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -238,18 +228,16 @@ export default function Navbar() {
               </li>
             ))}
 
-            {/* CONTACT BUTTON */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setFormOpen(true)}
-              className="ml-4 px-5 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-full shadow-md hover:bg-yellow-400 hover:shadow-yellow-400/30 transition-all"
+              className="ml-4 px-5 py-3 bg-blue-500 text-white hover:text-black font-semibold rounded-full shadow-md hover:bg-blue-600 transition-all"
             >
               Contact Now
             </motion.button>
           </ul>
 
-          {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-white"
@@ -259,12 +247,11 @@ export default function Navbar() {
           </button>
         </nav>
 
-        {/* ================= MOBILE MENU ================= */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: menuOpen ? 1 : 0, y: menuOpen ? 0 : -20 }}
           transition={{ duration: 0.3 }}
-          className={`md:hidden bg-gray-900/95 backdrop-blur-md border-t border-yellow-500/10 transition-all overflow-hidden ${
+          className={`md:hidden bg-black/70 backdrop-blur-md border-t border-white/10 transition-all overflow-hidden ${
             menuOpen ? "max-h-[600px] py-4" : "max-h-0"
           }`}
         >
@@ -276,8 +263,8 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className={`text-lg transition-colors ${
                     pathname === link.href
-                      ? "text-yellow-400"
-                      : "hover:text-yellow-400"
+                      ? "text-blue-400"
+                      : "hover:text-blue-400"
                   }`}
                 >
                   {link.name}
@@ -285,14 +272,13 @@ export default function Navbar() {
               </li>
             ))}
 
-            {/* MOBILE PRODUCT DROPDOWN */}
             <li>
               <button
                 onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
                 className={`flex items-center gap-1 text-lg transition-colors ${
                   pathname.startsWith("/products")
-                    ? "text-yellow-400"
-                    : "hover:text-yellow-400"
+                    ? "text-blue-400"
+                    : "hover:text-blue-400"
                 }`}
               >
                 Products
@@ -318,7 +304,7 @@ export default function Navbar() {
                         <Link
                           href={product.href}
                           onClick={() => setMenuOpen(false)}
-                          className="text-base text-gray-400 hover:text-yellow-400 transition-colors block"
+                          className="text-base text-gray-300 hover:text-blue-400 transition-colors block"
                         >
                           {product.name}
                         </Link>
@@ -330,7 +316,7 @@ export default function Navbar() {
                                 <Link
                                   href={subProduct.href}
                                   onClick={() => setMenuOpen(false)}
-                                  className="text-sm text-gray-500 hover:text-yellow-400 transition-colors block"
+                                  className="text-sm text-gray-400 hover:text-blue-400 transition-colors block"
                                 >
                                   {subProduct.name}
                                 </Link>
@@ -345,7 +331,6 @@ export default function Navbar() {
               </AnimatePresence>
             </li>
 
-            {/* AFTER PRODUCT LINKS MOBILE */}
             {afterProductLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -353,32 +338,18 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className={`text-lg transition-colors ${
                     pathname === link.href
-                      ? "text-yellow-400"
-                      : "hover:text-yellow-400"
+                      ? "text-blue-400"
+                      : "hover:text-blue-400"
                   }`}
                 >
                   {link.name}
                 </Link>
               </li>
             ))}
-
-            <li>
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  setFormOpen(true);
-                  setMenuOpen(false);
-                }}
-                className="w-full px-5 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-full shadow-md hover:bg-yellow-400 transition-all"
-              >
-                Contact Now
-              </motion.button>
-            </li>
           </ul>
         </motion.div>
       </motion.header>
 
-      {/* ================= CONTACT FORM MODAL ================= */}
       <AnimatePresence>
         {formOpen && (
           <motion.div
@@ -389,7 +360,7 @@ export default function Navbar() {
             onClick={() => setFormOpen(false)}
           >
             <motion.div
-              className="bg-gray-900 text-white rounded-2xl max-w-lg w-full p-6 relative border border-yellow-500/30"
+              className="bg-gray-900 text-white rounded-2xl max-w-lg w-full p-6 relative border border-white/20"
               initial={{ scale: 0.8, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -398,12 +369,12 @@ export default function Navbar() {
             >
               <button
                 onClick={() => setFormOpen(false)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-yellow-400"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white"
               >
                 <X size={24} />
               </button>
 
-              <h2 className="text-2xl font-bold text-center mb-4 text-yellow-400">
+              <h2 className="text-2xl font-bold text-center mb-4 text-white">
                 Get in Touch
               </h2>
 
@@ -411,24 +382,24 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Full Name"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 outline-none"
+                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-400 outline-none"
                 />
                 <input
                   type="email"
                   placeholder="Email Address"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 outline-none"
+                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-400 outline-none"
                 />
                 <textarea
                   rows={4}
                   placeholder="Message"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 outline-none resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-400 outline-none resize-none"
                 ></textarea>
 
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="w-full bg-yellow-500 text-gray-900 font-semibold py-2 rounded-lg shadow-md hover:bg-yellow-400 transition-all"
+                  className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition-all"
                 >
                   Send Message
                 </motion.button>
