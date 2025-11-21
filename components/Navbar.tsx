@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -14,7 +14,8 @@ export default function Navbar() {
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
 
-  const [hoverProduct4, setHoverProduct4] = useState(false);
+  // renamed for clarity: controls the sub-dropdown visibility for "Vibrating Screens"
+  const [hoverVibratingScreens, setHoverVibratingScreens] = useState(false);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -40,17 +41,60 @@ export default function Navbar() {
 
   const afterProductLinks = [{ name: "Contact", href: "/contact" }];
 
+  // refs for click-outside detection
+  const productsRef = useRef<HTMLLIElement | null>(null);
+  const subDropdownRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
 
     const openHandler = () => setFormOpen(true);
-    window.addEventListener("openContactForm", openHandler);
+    window.addEventListener("openContactForm", openHandler as EventListener);
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      // Close products dropdown if click outside products container
+      if (
+        productsRef.current &&
+        !productsRef.current.contains(target) &&
+        productsOpen
+      ) {
+        setProductsOpen(false);
+        setHoverVibratingScreens(false);
+      }
+      // Close mobile nested products if clicking outside mobile menu
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(target)) {
+        // do not auto-close full mobile menu — only nested in mobile; keep original behavior
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("openContactForm", openHandler);
+      window.removeEventListener(
+        "openContactForm",
+        openHandler as EventListener
+      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, [productsOpen]);
+
+  // keyboard accessibility: close menus with Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setProductsOpen(false);
+        setHoverVibratingScreens(false);
+        setMenuOpen(false);
+        setMobileProductsOpen(false);
+        setFormOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   return (
@@ -64,11 +108,16 @@ export default function Navbar() {
             ? "bg-blue-300/10 backdrop-blur-lg shadow-lg border-b border-white/10"
             : "bg-transparent"
         }`}
+        role="banner"
       >
-        <nav className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+        <nav
+          className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center"
+          aria-label="Main navigation"
+        >
           <Link
             href="/"
             className="text-2xl font-extrabold text-white tracking-wider relative"
+            aria-label="Home"
           >
             <motion.span
               className="text-blue-400"
@@ -104,20 +153,26 @@ export default function Navbar() {
                 />
               </li>
             ))}
+
+            {/* ------------------ PRODUCTS (mega panel) ------------------ */}
             <li
+              ref={productsRef}
               className="relative group"
               onMouseEnter={() => setProductsOpen(true)}
               onMouseLeave={() => {
                 setProductsOpen(false);
-                setHoverProduct4(false);
+                setHoverVibratingScreens(false);
               }}
             >
               <button
+                aria-haspopup="true"
+                aria-expanded={productsOpen}
                 className={`flex items-center gap-1 transition-colors duration-300 ${
                   pathname.startsWith("/products")
                     ? "text-white"
                     : "hover:text-white"
                 }`}
+                onClick={() => setProductsOpen((s) => !s)}
               >
                 Products
                 <ChevronDown
@@ -128,6 +183,7 @@ export default function Navbar() {
                 />
               </button>
 
+              {/* underline */}
               <motion.span
                 className={`absolute left-0 -bottom-1 h-0.5 bg-white rounded-full transition-all duration-300 ${
                   pathname.startsWith("/products")
@@ -136,80 +192,86 @@ export default function Navbar() {
                 }`}
               />
 
+              {/* MEGA PANEL */}
               <AnimatePresence>
                 {productsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 12, scale: 0.98 }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="absolute top-full left-0 mt-4 
-                      bg-white/5 backdrop-blur-xl
-                      border border-white/10 
-                      rounded-2xl shadow-2xl 
-                      p-4 min-w-[240px]
-                      space-y-1"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.25 }}
+                    className="
+                      absolute top-full -right-40 mt-4
+                      bg-white/10 backdrop-blur-2xl
+                      border border-white/20
+                      rounded-2xl shadow-2xl
+                      p-8 w-[900px]
+                      grid grid-cols-3 gap-12
+                      text-white
+                    "
                   >
-                    <ul className="py-2">
-                      {products.map((product) => (
-                        <li
-                          key={product.href}
-                          className="relative group/item"
-                          onMouseEnter={() =>
-                            product.name === "Vibrating Screens" &&
-                            setHoverProduct4(true)
-                          }
-                          onMouseLeave={() =>
-                            product.name === "Vibrating Screens" &&
-                            setHoverProduct4(false)
-                          }
-                        >
-                          <Link
-                            href={product.href}
-                            className="block px-6 py-2.5 text-white hover:bg-white/10 transition-all whitespace-nowrap"
-                          >
-                            {product.name}
-                          </Link>
+                    {/* COLUMN 1 BLOCK (Column + Divider) */}
+                    <div className="flex space-x-8">
+                      <div className="space-y-4">
+                        <h3 className="text-white font-semibold text-lg pb-1 border-b border-white/10">
+                          Stationary Crushing
+                        </h3>
 
-                          {product.subProducts && (
-                            <AnimatePresence>
-                              {hoverProduct4 &&
-                                product.name === "Vibrating Screens" && (
-                                  <motion.div
-                                    initial={{ opacity: 0, x: 14 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: 14 }}
-                                    transition={{ duration: 0.25, ease: "easeOut" }}
-                                    className="absolute left-full top-0 ml-3 
-                                      w-[190px] bg-white/5 
-                                      backdrop-blur-xl 
-                                      border border-white/10 
-                                      rounded-2xl shadow-2xl 
-                                      p-3"
-                                  >
-                                    <ul className="py-2 space-y-1">
-                                      {product.subProducts.map((sub) => (
-                                        <li key={sub.href}>
-                                          <Link
-                                            href={sub.href}
-                                            className="block px-4 py-2.5 text-white hover:bg-white/10 transition-all whitespace-nowrap"
-                                          >
-                                            {sub.name}
-                                          </Link>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </motion.div>
-                                )}
-                            </AnimatePresence>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                        <ul className="space-y-1.5 text-sm">
+                          <li><Link href="/products/stationary-2stage-jj" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">II Stage – Jaw–Jaw</Link></li>
+                          <li><Link href="/products/stationary-2stage-jc" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">II Stage – Jaw–Cone</Link></li>
+                          <li><Link href="/products/stationary-3stage-jjv" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Jaw–Jaw–VSI</Link></li>
+                          <li><Link href="/products/stationary-3stage-jcv" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Jaw–Cone–VSI</Link></li>
+                          <li><Link href="/products/stationary-msand" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">M-Sand – VSI + Screen</Link></li>
+                          <li><Link href="/products/stationary-psand" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">P-Sand – VSI + Screen + Wash</Link></li>
+                        </ul>
+                      </div>
+
+                      {/* DIVIDER */}
+                      <div className="w-px bg-white/10"></div>
+                    </div>
+
+                    {/* COLUMN 2 BLOCK */}
+                    <div className="flex space-x-8">
+                      <div className="space-y-4">
+                        <h3 className="text-white font-semibold text-lg pb-1 border-b border-white/10">
+                          Semi-Mobile Crushing
+                        </h3>
+
+                        <ul className="space-y-1.5 text-sm">
+                          <li><Link href="/products/semi-2stage-jj" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">II Stage – Jaw–Jaw</Link></li>
+                          <li><Link href="/products/semi-2stage-jc" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">II Stage – Jaw–Cone</Link></li>
+                          <li><Link href="/products/semi-3stage-jjv" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Jaw–Jaw–VSI</Link></li>
+                          <li><Link href="/products/semi-3stage-jcv" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Jaw–Cone–VSI</Link></li>
+                          <li><Link href="/products/semi-msand" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">M-Sand – VSI + Screen</Link></li>
+                          <li><Link href="/products/semi-psand" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">P-Sand – VSI + Wash</Link></li>
+                        </ul>
+                      </div>
+
+                      {/* DIVIDER */}
+                      <div className="w-px bg-white/10"></div>
+                    </div>
+
+                    {/* COLUMN 3 BLOCK */}
+                    <div className="flex space-x-8">
+                      <div className="space-y-4">
+                        <h3 className="text-white font-semibold text-lg pb-1 border-b border-white/10">
+                          Wheel-Mounted Crushing
+                        </h3>
+
+                        <ul className="space-y-1.5 text-sm">
+                          <li><Link href="/products/wheel-2stage" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">II Stage – Single Chassis</Link></li>
+                          <li><Link href="/products/wheel-3stage-double" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Double Chassis</Link></li>
+                          <li><Link href="/products/wheel-3stage-triple" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">III Stage – Triple Chassis</Link></li>
+                          <li><Link href="/products/wheel-msand" className="block px-2 py-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 hover:translate-x-1">M-Sand – VSI + Screen</Link></li>
+                        </ul>
+                      </div>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </li>
+
             {afterProductLinks.map((link) => (
               <li key={link.href} className="relative group">
                 <Link
@@ -238,6 +300,7 @@ export default function Navbar() {
             </motion.button>
           </ul>
 
+          {/* MOBILE: hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-white"
@@ -247,7 +310,9 @@ export default function Navbar() {
           </button>
         </nav>
 
+        {/* MOBILE MENU */}
         <motion.div
+          ref={mobileMenuRef}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: menuOpen ? 1 : 0, y: menuOpen ? 0 : -20 }}
           transition={{ duration: 0.3 }}
@@ -272,14 +337,16 @@ export default function Navbar() {
               </li>
             ))}
 
+            {/* mobile products accordion */}
             <li>
               <button
-                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                onClick={() => setMobileProductsOpen((s) => !s)}
                 className={`flex items-center gap-1 text-lg transition-colors ${
                   pathname.startsWith("/products")
                     ? "text-blue-400"
                     : "hover:text-blue-400"
                 }`}
+                aria-expanded={mobileProductsOpen}
               >
                 Products
                 <ChevronDown
@@ -296,14 +363,17 @@ export default function Navbar() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.28 }}
                     className="ml-4 mt-3 space-y-3 overflow-hidden"
                   >
                     {products.map((product) => (
                       <li key={product.href}>
                         <Link
                           href={product.href}
-                          onClick={() => setMenuOpen(false)}
+                          onClick={() => {
+                            setMenuOpen(false);
+                            setMobileProductsOpen(false);
+                          }}
                           className="text-base text-gray-300 hover:text-blue-400 transition-colors block"
                         >
                           {product.name}
@@ -315,7 +385,10 @@ export default function Navbar() {
                               <li key={subProduct.href}>
                                 <Link
                                   href={subProduct.href}
-                                  onClick={() => setMenuOpen(false)}
+                                  onClick={() => {
+                                    setMenuOpen(false);
+                                    setMobileProductsOpen(false);
+                                  }}
                                   className="text-sm text-gray-400 hover:text-blue-400 transition-colors block"
                                 >
                                   {subProduct.name}
@@ -350,6 +423,7 @@ export default function Navbar() {
         </motion.div>
       </motion.header>
 
+      {/* CONTACT FORM MODAL */}
       <AnimatePresence>
         {formOpen && (
           <motion.div
@@ -370,6 +444,7 @@ export default function Navbar() {
               <button
                 onClick={() => setFormOpen(false)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white"
+                aria-label="Close contact form"
               >
                 <X size={24} />
               </button>
