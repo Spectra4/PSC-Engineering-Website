@@ -24,14 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-/* .site-bg {
+.site-bg {
   background: linear-gradient(
     to right,
     #010df5 0%,
     #a7b9ff 45%,
     #eef1ff 100%
   );
-} */
+}
 .primary {
   color: #2D2F92;
 }

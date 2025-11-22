@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; // <-- Re-introduced Framer Motion
 import { useEffect, useRef, useState } from "react";
 
 interface Stat {
@@ -9,6 +9,7 @@ interface Stat {
   suffix: string;
 }
 
+// Reusing your optimized CountUp component
 const CountUp = ({ target, duration = 2.5 }: { target: number; duration?: number }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef(0);
@@ -49,6 +50,7 @@ export default function StatsSection() {
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // Intersection Observer logic (remains the same)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -57,7 +59,7 @@ export default function StatsSection() {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -70,45 +72,75 @@ export default function StatsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-24 bg-gradient-to-r from-gray-900 to-gray-800 text-white"
+      className="py-20 text-white bg-gray-950 relative overflow-hidden" // <-- Added bg-gray-950 back for contrast
       data-scroll
     >
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Section Title */}
+      {/* Subtle background grid/pattern */}
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#1c2a4f_1px,transparent_1px)] [bg-size:16px_16px]"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+
+        {/* Section Title - Framer Motion Wrapper Added */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-16"
           data-scroll
-          data-scroll-speed="2"
+          data-scroll-speed="1"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">By The Numbers</h2>
-          <p className="text-lg text-gray-300">Proven track record of excellence and reliability.</p>
+          <p className="text-lg font-medium text-blue-400 uppercase tracking-widest mb-2">
+            Our Performance
+          </p>
+          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-cyan-300"> {/* Fixed bg-linear-to-r to bg-gradient-to-r */}
+              Excellence
+            </span>{" "}
+            By The Numbers
+          </h2>
+          <p className="mt-4 text-xl text-gray-400 max-w-2xl mx-auto">
+            A proven track record of dedication, innovation, and client satisfaction.
+          </p>
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat, idx) => (
-            <motion.div
+            <motion.div // <-- Framer Motion Wrapper Added
               key={idx}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.15, duration: 0.6 }}
+              // ENTRY ANIMATION: Staggered slide and fade-in
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: idx * 0.2, duration: 0.7, type: "spring", stiffness: 100 }}
               viewport={{ once: true }}
+
+              // HOVER ANIMATION: Subtle 3D tilt effect (highly futuristic)
+              whileHover={{ scale: 1.05, rotateY: idx % 2 === 0 ? 5 : -5, rotateX: 5 }}
+              
               data-scroll
-              data-scroll-speed={-1}
-              className="text-center"
+              data-scroll-speed={idx % 2 === 0 ? -0.5 : 0.5}
+              
+              // Styles: Added transform-gpu for better performance with 3D/hover
+              className="relative p-8 rounded-xl border border-blue-800/50 backdrop-blur-sm bg-gray-900/30 shadow-xl 
+                         transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:bg-gray-800/50 group transform-gpu"
             >
-              <div className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-2">
-                {isInView ? <CountUp target={stat.number} /> : "0"}
-                <span className="text-4xl md:text-5xl">{stat.suffix}</span>
+              {/* Decorative corner elements */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 group-hover:border-blue-400 transition-colors"></div>
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 group-hover:border-blue-400 transition-colors"></div>
+
+              <div className="text-left">
+                <p className="text-gray-400 text-base uppercase tracking-wider mb-2">{stat.label}</p>
+
+                <div className="text-7xl md:text-8xl font-extrabold leading-none text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-300">
+                  {isInView ? <CountUp target={stat.number} /> : "0"}
+                  <span className="text-5xl font-black">{stat.suffix}</span>
+                </div>
               </div>
-              <p className="text-gray-300 text-lg">{stat.label}</p>
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );

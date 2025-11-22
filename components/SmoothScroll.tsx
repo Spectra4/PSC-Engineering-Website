@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useLayoutEffect } from "react"; // Using useLayoutEffect for DOM manipulation
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+// import { gsap } from "gsap"; // REMOVED: GSAP
+// import { ScrollTrigger } from "gsap/dist/ScrollTrigger"; // REMOVED: ScrollTrigger
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -14,10 +12,13 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const locoScrollRef = useRef<LocomotiveScroll | null>(null);
+  // Use LocomotiveScroll type directly as we don't need the custom GSAP structure anymore
+  const locoScrollRef = useRef<LocomotiveScroll | null>(null); 
 
-  useEffect(() => {
-    if (!scrollRef.current) return;
+  // Use useLayoutEffect for correct DOM initialization timing
+  useLayoutEffect(() => {
+    // Check for client-side environment and the DOM element
+    if (typeof window === 'undefined' || !scrollRef.current) return;
 
     const scrollEl = scrollRef.current;
 
@@ -27,39 +28,20 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       smooth: true,
       lerp: 0.08, // smaller = smoother feel
       multiplier: 1.0,
-      smartphone: { smooth: true, breakpoint: 0 },
-      tablet: { smooth: true, breakpoint: 0 },
+      smartphone: { smooth: true }, 
     });
 
-    // Integrate GSAP ScrollTrigger with Locomotive Scroll
-    ScrollTrigger.scrollerProxy(scrollEl, {
-      scrollTop(value) {
-        return arguments.length
-          ? locoScrollRef.current!.scrollTo(value, 0, 0)
-          : locoScrollRef.current!.scroll.instance.scroll.y;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: scrollEl.style.transform ? "transform" : "fixed",
-    });
+    // We no longer need the GSAP/ScrollTrigger proxy or updates.
 
-    // Update ScrollTrigger on Locomotive Scroll events
-    locoScrollRef.current.on("scroll", ScrollTrigger.update);
-
-    ScrollTrigger.addEventListener("refresh", () => locoScrollRef.current?.update());
-    ScrollTrigger.refresh();
-
+    // Cleanup function
     return () => {
-      locoScrollRef.current?.destroy();
-      locoScrollRef.current = null;
+      // Safely destroy the instance and clear the ref
+      if (locoScrollRef.current) {
+        locoScrollRef.current.destroy();
+        locoScrollRef.current = null;
+      }
     };
-  }, []);
+  }, []); // Empty dependency array ensures it runs only on mount/unmount
 
   return (
     <div id="smooth-scroll" data-scroll-container ref={scrollRef}>
