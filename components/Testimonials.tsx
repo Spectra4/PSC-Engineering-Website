@@ -69,7 +69,7 @@ export default function TestimonialSection() {
       if (mx < -SWIPE_THRESHOLD) {
         nextTestimonial();
       } else if (mx > SWIPE_THRESHOLD) {
-        prevTestTestimonial();
+        prevTestimonial();
       }
     }
   }, { axis: 'x', filterTaps: true }); // Only detect movement on the X-axis
