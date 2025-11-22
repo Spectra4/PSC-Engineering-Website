@@ -23,9 +23,9 @@ export default function TestimonialSection() {
   ];
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-8" data-scroll>
       {/* Title */}
-      <div className="flex justify-center mb-12">
+      <div className="flex justify-center mb-10" data-scroll data-scroll-speed="2">
         <div className="text-center">
           <span className="block w-16 h-1 bg-primary mx-auto mb-3 rounded-full"></span>
           <h2 className="text-4xl font-bold text-gray-900">Testimonials</h2>
@@ -41,6 +41,8 @@ export default function TestimonialSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.15 }}
             viewport={{ once: true }}
+            data-scroll
+            data-scroll-speed={-1}
             className="
               p-8 rounded-2xl bg-gray-50 border border-gray-200 
               shadow-md hover:shadow-lg transition-all duration-300

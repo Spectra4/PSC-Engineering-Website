@@ -98,13 +98,22 @@
 // }
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function AboutSection() {
   return (
-    <section className="py-24">
+    <section className="py-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        
+
         {/* LEFT — TEXT */}
-        <div>
+        <motion.div
+          data-scroll
+          data-scroll-speed="1.5"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <h4 className="text-sm tracking-[0.25em] text-gray-500 mb-3">
             ABOUT US
           </h4>
@@ -120,16 +129,24 @@ export default function AboutSection() {
             supports businesses across mining, construction, and industrial
             sectors with precision and innovation.
           </p>
-        </div>
+        </motion.div>
 
         {/* RIGHT — IMAGE */}
-        <div className="w-full">
+        <motion.div
+          data-scroll
+          data-scroll-speed="1"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
           <img
             src="/your-image.jpg"
             alt="About Us"
             className="w-full rounded-2xl object-cover shadow-lg"
           />
-        </div>
+        </motion.div>
+
       </div>
     </section>
   );

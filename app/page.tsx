@@ -1,8 +1,10 @@
+"use client";
+
 import Hero from '@/components/Hero';
 import AboutSection from '@/components/AboutUs';
 import StatsSection from '@/components/Stats';
-import HiTechMachines from '@/components/HiTechMachines'
-import WhyChooseUs from '@/components/WhyChooseUs'; 
+import HiTechMachines from '@/components/HiTechMachines';
+import WhyChooseUs from '@/components/WhyChooseUs';
 import Testimonials from '@/components/Testimonials';
 
 export default function Home() {
@@ -10,7 +12,7 @@ export default function Home() {
     <main>
       <Hero />
       <AboutSection />
-      <StatsSection />
+      {/* <StatsSection /> */}
       <HiTechMachines />
       <WhyChooseUs />
       <Testimonials />
