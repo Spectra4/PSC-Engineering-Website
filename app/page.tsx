@@ -12,7 +12,7 @@ export default function Home() {
     <main>
       <Hero />
       <AboutSection />
-      {/* <StatsSection /> */}
+      <StatsSection />
       <HiTechMachines />
       <WhyChooseUs />
       <Testimonials />
