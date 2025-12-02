@@ -294,7 +294,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setFormOpen(true)}
-              className="ml-4 px-5 py-3 bg-blue-500 text-white hover:text-black font-semibold rounded-full shadow-md hover:bg-blue-600 transition-all"
+              className="ml-4 px-5 py-3 bg-blue-500 text-white hover:text-white font-semibold rounded-full shadow-md hover:bg-blue-600 transition-all"
             >
               Contact Now
             </motion.button>

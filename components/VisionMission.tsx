@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Zap, Target } from "lucide-react"; // Zap for Vision (Power/Future), Target for Mission (Goal/Execution)
+import { Zap, Target } from "lucide-react";
 
 export default function VisionMissionSection() {
   const primaryGradient = "bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300";
@@ -24,7 +24,9 @@ export default function VisionMissionSection() {
   ];
 
   return (
-    <section className="py-24 bg-gray-950 text-white relative overflow-hidden" data-scroll>
+    <section 
+      className="py-6 text-white relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Title */}
@@ -33,7 +35,7 @@ export default function VisionMissionSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col items-center mb-16"
+          className="flex flex-col items-center mb-10"
         >
           <p className="text-sm tracking-widest text-cyan-400 uppercase mb-3 font-semibold">
             GUIDING PRINCIPLES
@@ -43,8 +45,10 @@ export default function VisionMissionSection() {
           </h2>
         </motion.div>
 
-        {/* Vision & Mission Grid */}
-        <div className="grid lg:grid-cols-2 gap-10">
+        {/* Vision & Mission Cards */}
+        <div 
+          className="grid lg:grid-cols-2 gap-10"
+        >
           {cards.map((card, index) => (
             <motion.div
               key={index}
@@ -52,10 +56,8 @@ export default function VisionMissionSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              
-              // Dark, futuristic card styling with subtle depth
               className={`
-                p-10 rounded-2xl bg-gray-900/50 backdrop-blur-sm border border-blue-800/50 
+                p-10 rounded-2xl bg-gray-900/50 backdrop-blur-sm border border-blue-800/50
                 relative overflow-hidden transition-all duration-300 transform-gpu h-full
                 hover:border-cyan-400/50 ${card.shadow}
               `}
@@ -63,7 +65,7 @@ export default function VisionMissionSection() {
               {/* Decorative Corner Element */}
               <div className={`absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 ${card.color} rounded-tl-2xl opacity-50`}></div>
 
-              {/* Icon Container */}
+              {/* Icon */}
               <div className="mb-6">
                 <span className={`inline-block p-3 rounded-full ${card.color}`}>
                   {card.icon}
@@ -75,7 +77,7 @@ export default function VisionMissionSection() {
                 <span className={primaryGradient}>{card.title}</span>
               </h3>
 
-              {/* Statement */}
+              {/* Text */}
               <p className="text-gray-300 leading-relaxed text-lg border-l-4 border-cyan-500/50 pl-4 italic">
                 {card.text}
               </p>

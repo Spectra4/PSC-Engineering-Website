@@ -19,7 +19,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <section className="relative w-full h-full flex items-center justify-center text-white text-center px-6" data-scroll data-scroll-speed="4">
+      <section className="relative w-full h-full flex items-center justify-center text-white text-center px-6">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-extrabold tracking-tight drop-shadow-xl">
             Welcome to Patel Stone Crusher

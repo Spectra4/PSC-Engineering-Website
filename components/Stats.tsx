@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion"; // <-- Re-introduced Framer Motion
+import { motion } from "framer-motion"; 
 import { useEffect, useRef, useState } from "react";
 
 interface Stat {
@@ -9,7 +9,6 @@ interface Stat {
   suffix: string;
 }
 
-// Reusing your optimized CountUp component
 const CountUp = ({ target, duration = 2.5 }: { target: number; duration?: number }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef(0);
@@ -50,7 +49,6 @@ export default function StatsSection() {
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Intersection Observer logic (remains the same)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -72,29 +70,26 @@ export default function StatsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 text-white bg-gray-950 relative overflow-hidden" // <-- Added bg-gray-950 back for contrast
-      data-scroll
+      className="py-15 text-white relative overflow-hidden"
     >
       {/* Subtle background grid/pattern */}
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#1c2a4f_1px,transparent_1px)] [bg-size:16px_16px]"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* Section Title - Framer Motion Wrapper Added */}
+        {/* Section Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-16"
-          data-scroll
-          data-scroll-speed="1"
         >
           <p className="text-lg font-medium text-blue-400 uppercase tracking-widest mb-2">
             Our Performance
           </p>
           <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-cyan-300"> {/* Fixed bg-linear-to-r to bg-gradient-to-r */}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">
               Excellence
             </span>{" "}
             By The Numbers
@@ -107,32 +102,23 @@ export default function StatsSection() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat, idx) => (
-            <motion.div // <-- Framer Motion Wrapper Added
+            <motion.div
               key={idx}
-              // ENTRY ANIMATION: Staggered slide and fade-in
               initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.2, duration: 0.7, type: "spring", stiffness: 100 }}
               viewport={{ once: true }}
-
-              // HOVER ANIMATION: Subtle 3D tilt effect (highly futuristic)
               whileHover={{ scale: 1.05, rotateY: idx % 2 === 0 ? 5 : -5, rotateX: 5 }}
-              
-              data-scroll
-              data-scroll-speed={idx % 2 === 0 ? -0.5 : 0.5}
-              
-              // Styles: Added transform-gpu for better performance with 3D/hover
               className="relative p-8 rounded-xl border border-blue-800/50 backdrop-blur-sm bg-gray-900/30 shadow-xl 
                          transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:bg-gray-800/50 group transform-gpu"
             >
-              {/* Decorative corner elements */}
               <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 group-hover:border-blue-400 transition-colors"></div>
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 group-hover:border-blue-400 transition-colors"></div>
 
               <div className="text-left">
                 <p className="text-gray-400 text-base uppercase tracking-wider mb-2">{stat.label}</p>
 
-                <div className="text-7xl md:text-8xl font-extrabold leading-none text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-300">
+                <div className="text-7xl md:text-8xl font-extrabold leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
                   {isInView ? <CountUp target={stat.number} /> : "0"}
                   <span className="text-5xl font-black">{stat.suffix}</span>
                 </div>

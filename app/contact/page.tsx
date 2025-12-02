@@ -79,7 +79,7 @@ export default function Contact() {
   return (
     <>
       <SuccessModal />
-      <section id="contact" className="relative bg-gray-950 min-h-screen text-white py-28 overflow-hidden">
+      <section id="contact" className="relative min-h-screen text-white py-28 overflow-hidden">
         {/* Background Mesh/Grid Effect */}
         <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMCcgaGVpZ2h0PSczMCcgdmlld0JveD0nMCAwIDYgNic+PHBhdGggZmlsbD0nI2U1ZTdlJzBkPSdNMCAwTDYgMFYxSDB6TTYgNUg1VjZIMHptMi0ySDNWNFYySDR6TTAgNUgyVjZIMHptNi0zSDR2Mkg2ek0wIDJIMlYzSDB6TTMgMEg2VjFIM3pNMzQ0VjJoMVYySDN6TTUgMEg2VjJoMVYzeE0xIDBIN1YzTDF6TTQgNEg3VjdIMTR6TTIgMEg3TDR6TTEgNUg3TDR6TTQgNUg3TDR6TTcgNUgxM1Y4TDF6TTQgMEg3TDR6TTEgNUg3TDR6TTQgNUg3TDR6TTIgMGg2djFoNXY0aDJ2MWg2di03aDF2LTNIMFYzeTNNIDUgN0w5IDdWMTRIN3YtN3pNNyAzSDE0VjdIMTd2M0g2eiIvPjwvc3ZnPg==')] transform scale-150 rotate-45 pointer-events-none"></div>
 

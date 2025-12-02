@@ -1,7 +1,8 @@
 "use client";
 
-import VisionMissionSection from '@/components/VisionMission';  
+import VisionMissionSection from '@/components/VisionMission';  
 import CompanyGoalsSection from '@/components/CompanyGoals';
+import LeadershipTeamSection from '@/components/TeamSection';
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -14,11 +15,10 @@ export default function About() {
   const primaryGradientText = "bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300";
 
   return (
-    // Use a React Fragment or a main div to wrap both sections
     <> 
       {/* ----------------- 1. Main About Section (Grid) ----------------- */}
-      <section className="py-28 bg-gray-950 text-white relative overflow-hidden" id="about">
-        {/* Background decoration: Subtle radial gradient for depth */}
+      <section className="pt-28 pb-8 text-white relative overflow-hidden" id="about">
+        {/* Background decoration */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--tw-color-blue-900)_0%,transparent_70%)] opacity-20"></div>
 
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
@@ -29,7 +29,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            
+
             className={`relative w-full h-80 md:h-[420px] rounded-3xl overflow-hidden p-2 bg-gray-900/50 border ${primaryBorder} ${primaryGlow} transform-gpu`}
           >
             <Image
@@ -39,11 +39,11 @@ export default function About() {
               className="object-cover rounded-2xl"
               priority
             />
-            {/* Decorative Corner Element */}
+
             <div className={`absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 ${primaryText} rounded-tr-3xl z-10 opacity-70`}></div>
           </motion.div>
 
-          {/* Right: Text (Refined Copy and Styling) */}
+          {/* Right: Text Section */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -72,29 +72,19 @@ export default function About() {
               superior material quality, sustainable processes, and a partnership approach that ensures 
               long-term success for our clients.
             </p>
-
-            <div className="pt-4">
-              {/* Call to Action Button: FIX: Corrected gradient class from 'bg-linear-to-r' to 'bg-gradient-to-r' */}
-              <motion.a
-                href="/products" 
-                whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(59, 130, 246, 0.5)" }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center px-8 py-3 text-base font-semibold rounded-full 
-                           bg-linear-to-r from-blue-600 to-cyan-500 text-white 
-                           transition-all duration-300 shadow-lg"
-              >
-                View Our Machinery Lineup
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </motion.a>
-            </div>
           </motion.div>
         </div>
       </section>
 
       {/* ----------------- 2. Vision/Mission Section ----------------- */}
       <VisionMissionSection />
+
       {/* ----------------- 3. Goals Section ----------------- */}
       <CompanyGoalsSection />
+
+      {/* ----------------- 4. Leadership Team Section ----------------- */}
+      <LeadershipTeamSection />
+
     </>
   );
 }
