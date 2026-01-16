@@ -73,7 +73,6 @@ export default function SemiMobileCrushing() {
         {/* Subtle Grid Texture */}
         <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-        {/* Content */}
         <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
