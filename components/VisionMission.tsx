@@ -10,14 +10,14 @@ export default function VisionMissionSection() {
     {
       title: "Our Vision",
       icon: <Target className="w-12 h-12" />,
-      text: "To be India’s most trusted and technologically advanced engineering company for customized crusher plants, delivering world-class quality, economical performance, and long-term value to every client.",
+      text: "To be the most trusted and technologically advanced engineering company for customized crusher plants, delivering quality, performance, and long-term value",
       color: "text-cyan-400",
       shadow: "shadow-[0_0_40px_rgba(59,130,246,0.3)]",
     },
     {
       title: "Our Mission",
       icon: <Zap className="w-12 h-12" />,
-      text: "To engineer and build reliable, economical, and high-performance customized crusher plants by integrating advanced design, precision machining, and world-class fabrication. We remain committed to innovation, indigenous technology, disciplined project execution, and timely delivery — ensuring every customer receives a solution tailored to their operational needs and future growth.",
+      text: "To design, engineer, and deliver reliable, economical, and high-performance customized crusher plants by integrating advanced technology, precision manufacturing, and world-class fabrication. We are committed to continuous innovation, disciplined project execution, and timely delivery ensuring every client receives a solution optimized for efficiency, durability, and long-term operational value.",
       color: "text-blue-400",
       shadow: "shadow-[0_0_40px_rgba(45,212,191,0.3)]",
     },

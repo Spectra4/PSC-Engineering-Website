@@ -1,12 +1,10 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
-
 // ------------------------ TEAM MEMBERS ------------------------
 const teamMembers = [
   {
-    name: "Mr. Majjid Mehbub Patel",
+    name: "Mr. Majjid Mehbub Patel",  
     role: "Technical Director & Founder",
     bio: "Vastly experienced person (43+ years) in engineering and stone metal industry. He evolved the revolutionary breakthrough of the semi-mobile crusher plant and looks after all techno-commercial aspects.",
     image: "/team/Mr._Majjid_Mehbub_Patel.png",
@@ -49,10 +47,16 @@ const teamMembers = [
 
 const primaryGradient =
   "bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent";
-
 // ------------------------ TEAM CARD ------------------------
-const TeamCard = ({ member, index }: { member: (typeof teamMembers)[0]; index: number }) => {
-  const tiltDirection = index % 2 === 0 ? "hover:rotate-y-3" : "hover:-rotate-y-3";
+const TeamCard = ({
+  member,
+  index,
+}: {
+  member: (typeof teamMembers)[0];
+  index: number;
+}) => {
+  const tiltDirection =
+    index % 2 === 0 ? "hover:rotate-y-3" : "hover:-rotate-y-3";
   return (
     <motion.div
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -74,20 +78,16 @@ const TeamCard = ({ member, index }: { member: (typeof teamMembers)[0]; index: n
           className="w-full h-full object-cover object-center"
         />
       </div>
-
       {/* NAME + ROLE + BIO */}
       <div className="text-center">
         <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-
         <p className={`text-sm font-semibold mb-3 ${primaryGradient}`}>
           {member.role}
         </p>
-
         <p className="text-gray-400 text-sm italic mb-4 line-clamp-3">
           {member.bio}
         </p>
       </div>
-
       {/* SOCIAL ICONS */}
       <div className="flex justify-center space-x-5 border-t border-blue-800/40 pt-4">
         <motion.a
@@ -99,7 +99,6 @@ const TeamCard = ({ member, index }: { member: (typeof teamMembers)[0]; index: n
         >
           <Linkedin className="w-5 h-5" />
         </motion.a>
-
         <motion.a
           href={`mailto:${member.email}`}
           whileHover={{ scale: 1.2 }}
@@ -117,7 +116,6 @@ export default function LeadershipTeamSection() {
   return (
     <section className="py-20 md:py-24 text-white">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* TITLE */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -129,27 +127,24 @@ export default function LeadershipTeamSection() {
           <p className="text-sm text-cyan-400 tracking-widest mb-3 font-semibold">
             OUR EXPERTS
           </p>
-
           <h2 className="text-5xl font-extrabold">
             Meet the <span className={primaryGradient}>Leadership Team</span>
           </h2>
-
           <p className="mt-4 text-gray-400 max-w-3xl mx-auto">
             Our dedicated engineers and specialists are the foundation of our
             world-class, customized crushing solutions.
           </p>
         </motion.div>
-
         {/* GRID: auto-aligned for 5 members (perfect spacing) */}
-        <div className="
+        <div
+          className="
           grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 
-          gap-8 xl:gap-6 mx-auto
-        ">
+          gap-8 xl:gap-6 mx-auto"
+        >
           {teamMembers.map((member, index) => (
             <TeamCard key={index} member={member} index={index} />
           ))}
         </div>
-
       </div>
     </section>
   );

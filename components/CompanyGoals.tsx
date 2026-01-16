@@ -17,40 +17,22 @@ export default function CompanyGoalsSection() {
 
   const goals = [
     {
-      title: "Engineering Excellence",
+      title: "Deliver Technologically Advanced Solutions",
       icon: Wrench,
       description:
-        "Continuously improve our design, fabrication, and machining capabilities to deliver structurally superior and technologically advanced crusher plants.",
+        "Continuously develop and implement cutting-edge engineering technologies to produce high performance, customized crusher plants that lead the industry.",
     },
     {
-      title: "Customized Solutions",
+      title: "Ensure Excellence in Quality and Reliability",
       icon: Settings,
       description:
-        "Develop crusher plants tailored to each customer's production requirements, site conditions, and machinery preferences.",
+        "Maintain world-class standards in design, materials, and fabrication to provide durable, efficient, and dependable solutions for every client.",
     },
     {
-      title: "Cost Efficiency",
+      title: "Maximize Customer Value and Satisfaction",
       icon: IndianRupee,
       description:
-        "Optimize material procurement and production workflows to ensure clients receive maximum value and ROI from their investment.",
-    },
-    {
-      title: "Technological Advancement",
-      icon: Zap,
-      description:
-        "Invest in modern tools, R&D, and indigenous innovation to enhance plant performance, automation, and durability.",
-    },
-    {
-      title: "Timely Delivery",
-      icon: Clock,
-      description:
-        "Execute every project with discipline and precision to ensure on-schedule delivery and seamless installation.",
-    },
-    {
-      title: "Customer Support",
-      icon: Users,
-      description:
-        "Build long-term partnerships by providing dependable systems, transparent communication, and dedicated after-sales support.",
+        "Provide tailored, cost-effective solutions with disciplined project execution and timely delivery, ensuring long-term operational value and trust for clients.",
     },
     {
       title: "Sustainable Growth",

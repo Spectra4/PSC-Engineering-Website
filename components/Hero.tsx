@@ -28,10 +28,6 @@ export default function Hero() {
           <p className="text-lg mt-4 opacity-90 drop-shadow-lg">
             High-quality crushing machines, precision engineering, and reliable industrial solutions.
           </p>
-
-          <button className="mt-8 px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white hover:text-black font-semibold rounded-lg shadow-lg">
-            Explore Products
-          </button>
         </div>
       </section>
     </main>

@@ -103,7 +103,7 @@ export default function Contact() {
             <div className="space-y-6">
               {/* Phone */}
               <div className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50 border border-gray-700/50">
-                <Phone className={`w-6 h-6 ${primaryText} mt-1 flex-shrink-0`} />
+                <Phone className={`w-6 h-6 ${primaryText} mt-1 shrink-0`} />
                 <div>
                   <h4 className="font-semibold text-white">Sales & Inquiry Hotline</h4>
                   <span className="text-gray-300 text-lg">+91 98765 43210 / +91 99000 11223</span>
@@ -112,7 +112,7 @@ export default function Contact() {
               
               {/* Mail */}
               <div className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50 border border-gray-700/50">
-                <Mail className={`w-6 h-6 ${primaryText} mt-1 flex-shrink-0`} />
+                <Mail className={`w-6 h-6 ${primaryText} mt-1 shrink-0`} />
                 <div>
                   <h4 className="font-semibold text-white">Technical Support & General Mail</h4>
                   <span className="text-gray-300 text-lg break-all">support@patelcrusher.com</span>
@@ -121,7 +121,7 @@ export default function Contact() {
               
               {/* Location */}
               <div className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50 border border-gray-700/50">
-                <MapPin className={`w-6 h-6 ${primaryText} mt-1 flex-shrink-0`} />
+                <MapPin className={`w-6 h-6 ${primaryText} mt-1 shrink-0`} />
                 <div>
                   <h4 className="font-semibold text-white">Headquarters & Manufacturing Plant</h4>
                   <span className="text-gray-300 text-lg">
@@ -132,7 +132,7 @@ export default function Contact() {
               
               {/* Hours */}
               <div className="flex items-start gap-4 p-4 rounded-lg bg-gray-800/50 border border-gray-700/50">
-                <Clock className={`w-6 h-6 ${primaryText} mt-1 flex-shrink-0`} />
+                <Clock className={`w-6 h-6 ${primaryText} mt-1 shrink-0`} />
                 <div>
                   <h4 className="font-semibold text-white">Working Hours (IST)</h4>
                   <span className="text-gray-300 text-lg">Monday - Saturday: 9:00 AM - 6:00 PM</span>
@@ -220,7 +220,7 @@ export default function Contact() {
               className={`w-full text-white font-semibold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 ${
                 isSubmitting 
                   ? 'bg-gray-600 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400'
+                  : 'bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400'
               }`}
             >
               {isSubmitting ? (
